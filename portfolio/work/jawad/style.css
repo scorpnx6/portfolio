@@ -43,12 +43,16 @@ h1{font:500 clamp(76px,15vw,198px)/.86 "Manrope","Avenir Next",sans-serif;letter
 .project-list{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .project-card{position:relative;min-height:390px;overflow:hidden;border-radius:6px;background:var(--bg-dark-sec)}
 .project-card:nth-child(2){background:var(--bg-cream-sec)}
-.card-art{position:absolute;inset:0;display:grid;place-items:center;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.card-art {
+    position:absolute;
+    display:grid;place-items:center;
+    transition:transform .6s cubic-bezier(.2,.7,.2,1) 
+}
+.card-art img {
+    width: 100% ;
+}
 .project-card:hover .card-art{transform:scale(1.035)}
-.game-visual{width:66%;aspect-ratio:1.45;border-radius:22px;background:linear-gradient(140deg,#a79fff,var(--purple) 60%,#3328c4);box-shadow:0 30px 80px rgba(8,8,19,.55);transform:rotate(-7deg);display:grid;place-items:center;color:rgba(255,255,255,.9);font:800 clamp(28px,5vw,64px)/.9 "Manrope","Avenir Next",sans-serif;letter-spacing:-.08em;text-align:center}
-.fit-visual{width:37%;aspect-ratio:.52;border-radius:35px;border:9px solid var(--bg-dark-sec);background:linear-gradient(155deg,var(--bg-cream-sec),#c8c3ff);box-shadow:0 25px 65px rgba(8,8,19,.22);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--bg-dark-sec)}
-.fit-visual strong{font:700 clamp(30px,5vw,56px)/1 "Manrope","Avenir Next",sans-serif;letter-spacing:-.08em}
-.fit-visual small{margin-top:12px;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+
 .card-info{position:absolute;bottom:0;left:0;right:0;display:flex;align-items:end;justify-content:space-between;padding:26px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.62))}
 .project-card:nth-child(2) .card-info{color:var(--bg-dark-sec);background:linear-gradient(transparent,rgba(245,241,235,.94))}
 .card-info strong{display:block;font:600 25px "Manrope","Avenir Next",sans-serif;letter-spacing:-.04em}
@@ -294,7 +298,7 @@ h1{font:500 clamp(76px,15vw,198px)/.86 "Manrope","Avenir Next",sans-serif;letter
 }
 
 .footer-column a:hover {
-  color: #080813;
+  color: #6A5CFF;
 
   transform: translateX(3px);
 }
