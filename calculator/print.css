@@ -1,0 +1,63 @@
+@page{
+
+    size:A4;
+
+    margin:15mm;
+
+}
+
+body{
+
+    background:white;
+
+    font-family:Arial,sans-serif;
+
+    color:#222;
+
+}
+
+.no-print{
+
+    display:none;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+th{
+
+    background:#5B4FE8;
+
+    color:white;
+
+    padding:12px;
+
+}
+
+td{
+
+    padding:10px;
+
+    border-bottom:1px solid #ddd;
+
+}
+
+h1{
+
+    color:#5B4FE8;
+
+    margin-bottom:5px;
+
+}
+
+.summary{
+
+    margin-top:40px;
+
+}
