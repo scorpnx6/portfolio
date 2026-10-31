@@ -50,9 +50,32 @@ form-action 'self';
   <link rel="icon" type="image/png" href="assets/logo.png" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <script src="main.js" defer></script>
+      <script>
+      (() => {
+      try {
+        const pending = JSON.parse(sessionStorage.getItem("digital-zn:page-transition") || "null");
+        if (pending?.destination) {
+          const destination = new URL(pending.destination, location.href);
+          if (destination.origin === location.origin && destination.pathname === location.pathname && destination.search === location.search) {
+            document.documentElement.classList.add("has-pending-page-transition");
+          }
+        }
+      } catch {}
+      })();
+    </script>
+        <style id="meet-team-card-styles"></style>
+            <script src="page-transition.js" defer></script>
+                <link rel="stylesheet" href="page-transition.css">
 </head>
 
 <body>
+      <div class="page-transition" data-page-transition aria-hidden="true">
+      <div class="transition-content">
+        <span class="transition-count" data-transition-count>1-5</span>
+        <span class="transition-title" data-transition-title>Work</span>
+      </div>
+      <div class="transition-progress"><span></span></div>
+    </div>
 
   <!-- INTRO OVERLAY -->
   <div id="intro-overlay" aria-hidden="true">
@@ -300,7 +323,7 @@ form-action 'self';
         <div class="portfolio-card reveal-up">
           <div class="portfolio-img-wrap">
             <img src="assets/portfolio-brand.webp" alt="Graphic Design Showcase" loading="lazy" />
-            <a href="portfolio/port.html" class="portfolio-overlay">
+            <a href="portfolio/port.html" class="portfolio-overlay" aria-label="PORTFOLIO ">
             <span class="portfolio-view" data-i18n="pf_view">View project</span>
              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M7 17L17 7M7 7H17V17" />
@@ -320,7 +343,7 @@ form-action 'self';
         <div class="portfolio-card reveal-up" >
           <div class="portfolio-img-wrap">
             <img src="assets/portfolio-landing.webp" alt="Editing & Videography" loading="lazy" />
-            <a href="portfolio/port.html" class="portfolio-overlay">
+            <a href="portfolio/port.html" class="portfolio-overlay" aria-label="PORTFOLIO ">
             <span class="portfolio-view" data-i18n="pf_view">View project</span>
              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M7 17L17 7M7 7H17V17" />
@@ -340,7 +363,7 @@ form-action 'self';
         <div class="portfolio-card reveal-up">
           <div class="portfolio-img-wrap">
             <img  src="assets/portfolio-web.webp" alt="Web Development — Full Stack" loading="lazy" />
-            <a href="portfolio/port.html" class="portfolio-overlay">
+            <a href="portfolio/port.html" class="portfolio-overlay" aria-label="PORTFOLIO ">
             <span class="portfolio-view" data-i18n="pf_view">View project</span>
              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M7 17L17 7M7 7H17V17" />
@@ -359,7 +382,7 @@ form-action 'self';
         </div>
       </div>
       <div class="portfolio-cta reveal-up">
-        <a href="portfolio/port.html" class="btn-outline" data-i18n="pf_all">View All Portfolio →</a>
+        <a href="portfolio/port.html" class="btn-outline" data-i18n="pf_all" aria-label="PORTFOLIO ">View All Portfolio →</a>
       </div>
     </div>
   </section>

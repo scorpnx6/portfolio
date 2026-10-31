@@ -30,36 +30,77 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      (() => {
+      try {
+        const pending = JSON.parse(sessionStorage.getItem("digital-zn:page-transition") || "null");
+        if (pending?.destination) {
+          const destination = new URL(pending.destination, location.href);
+          if (destination.origin === location.origin && destination.pathname === location.pathname && destination.search === location.search) {
+            document.documentElement.classList.add("has-pending-page-transition");
+          }
+        }
+      } catch {}
+      })();
+    </script>
     <link rel="stylesheet" href="port.css">
+    <link rel="stylesheet" href="page-transition.css">
     <script src="port.js" defer></script>
+    <script src="page-transition.js" defer></script>
 
-    <style id="meet-team-card-styles">
-    </style>
+    <style id="meet-team-card-styles"></style>
 
   </head>
   <body>
+    <div class="page-transition" data-page-transition aria-hidden="true">
+      <div class="transition-content">
+        <span class="transition-count" data-transition-count></span>
+        <span class="transition-title" data-transition-title>Work</span>
+      </div>
+      <div class="transition-progress"><span></span></div>
+    </div>
     <header class="site-header">
-      <a class="identity" href="../index.html" aria-label="Max Von, back to top">
-        <span class="portrait-wrap">
-          <img src="..\assets\logo.png" alt="">
-          <i class="availability-dot" aria-hidden="true"></i>
-        </span>
-        <span class="identity-copy"><strong>Support</strong><span>contact@digital-zn.com</span></span>
+ <!-- NAVIGATION -->
+  <nav class="nav" id="mainNav">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo" aria-label="Digital ZN Home">
+        <img src="../../assets/logo.png" alt="Digital ZN" class="nav-logo-img" />
       </a>
-      <nav class="socials" aria-label="Quick navigation">
-        <a href="#work" aria-label="Selected work">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6v7M3 3.5v.1M6.5 13V6m0 2.5c.5-1.5 3.8-2.4 3.8 1V13M1.5 1.5h13v13h-13z"/></svg>
-        </a>
-        <a href="#about" aria-label="About Max">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.4"/><path d="M4 2.8c3.2 2.8 5.4 6.6 6.6 11M2 6.4c4 .2 7.7-1.2 10.5-3.6M2.7 11.8c2.8-2.2 6.4-3.2 11-2.4"/></svg>
-        </a>
-        <a href="#contact" aria-label="Contact">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="m2.8 4 5.2 4 5.2-4"/></svg>
-        </a>
-      </nav>
+      <div class="nav-links" id="navLinks">
+        <a href="#work" data-i18n="nav_home" class="nav-link active">Work</a>
+        <a href="#testimonials" data-i18n="nav_about" class="nav-link">The Team</a>
+      </div>
+      <div class="nav-controls">
+        <a href="../index.html " class="nav-cta" >
+    <span class="nav-cta-text" data-i18n="nav_cta">Contact</span>
+
+    <svg
+        class="nav-cta-arrow"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        focusable="false"
+    >
+        <path d="M5 19L19 5" />
+        <path d="M8 5H19V16" />
+    </svg>
+</a>
+        <button class="hamburger" id="hamburger" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-inner">
+        <a href="#home" data-i18n="nav_home" class="mobile-link">Work</a>
+        <a href="#contact" data-i18n="nav_cta" class="mobile-link mobile-link--cta">The Team</a>
+      </div>
+    </div>
+  </nav>
+
     </header>
 
     <main>
+      
       <section class="hero" id="top">
         <div class="hero-copy">
           <h1 class="hero-title" data-split-text aria-label="Digital Designer">OUR WORK </h1>
@@ -71,9 +112,9 @@
 
         <div class="work-grid" id="work">
           <article class="project" data-scroll-reveal>
-            <a class="project-link" href="work\jawad\index.html" aria-label="Al JAWAD project">
+            <a class="project-link" href="work/jawad/index.html" aria-label="Al JAWAD project" data-transition-title="Al JAWAD">
               <div class="project-visual">
-                <img src="..\assets\pr2.webp" alt="Al JAWAD" fetchpriority="high">
+                <img src="work\assets\lhfdk.png" alt="Al JAWAD" fetchpriority="high">
                 <span class="project-overlay" aria-hidden="true"><span>Al JAWAD</span><span class="open-mark">↗</span></span>
               </div>
               <div class="project-caption"><strong>Al JAWAD</strong><span>2025&nbsp;&nbsp;—&nbsp;&nbsp;ILLUSTRATOR-PHOTOSHOP</span></div>

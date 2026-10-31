@@ -84,114 +84,313 @@ h1{font:500 clamp(76px,15vw,198px)/.86 "Manrope","Avenir Next",sans-serif;letter
  .reveal{opacity:1;transform:none}
 }
 /* =========================
+   background
+========================= */
+html.is-transitioning {
+  scroll-behavior: auto;
+}
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--purple);
+  color: var(--bg-cream-sec);
+  clip-path: ellipse(0% 0% at 50% 100%);
+  pointer-events: none;
+  visibility: hidden;
+}
+.page-transition.is-covering {
+  visibility: visible;
+  animation: transition-cover .78s cubic-bezier(.76, 0, .24, 1) both;
+}
+.page-transition.is-revealing {
+  visibility: visible;
+  animation: transition-reveal .72s cubic-bezier(.76, 0, .24, 1) both;
+}
+.transition-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  opacity: 0;
+  transform: translateY(18px);
+}
+.page-transition.is-covering .transition-content {
+  animation: label-in .35s .16s ease both;
+}
+.page-transition.is-revealing .transition-content {
+  animation: label-out .18s ease both;
+}
+.transition-count {
+  font: 11px var(--font-mono);
+  letter-spacing: .08em;
+}
+.transition-title {
+  font: 500 clamp(3.8rem, 10vw, 9rem)/.9 var(--font-display);
+  letter-spacing: -.075em;
+  text-transform: uppercase;
+}
+.transition-progress {
+  position: absolute;
+  bottom: clamp(28px, 5vh, 52px);
+  left: 50%;
+  width: clamp(68px, 6vw, 100px);
+  height: 2px;
+  background: rgba(245, 241, 235, .32);
+  transform: translateX(-50%);
+}
+.transition-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-cream-sec);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.page-transition.is-covering .transition-progress span {
+  transform: scaleX(1);
+  transition: transform .68s cubic-bezier(.76, 0, .24, 1);
+}
+.page-transition.is-revealing .transition-progress span {
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform .45s ease;
+}
+@keyframes transition-cover {
+  to { clip-path: ellipse(155% 150% at 50% 100%); }
+}
+@keyframes transition-reveal {
+  from { clip-path: ellipse(155% 150% at 50% 100%); }
+  to { clip-path: ellipse(0% 0% at 50% 100%); }
+}
+@keyframes label-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes label-out {
+  to { opacity: 0; transform: translateY(-12px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-transition { display: none; }
+}
+/* =========================
    slider lhfdk
 ========================= */
-.car-14,
-.car-14 *,
-.car-14 *::before,
-.car-14 *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/*---- NUMBER OF SLIDE CONFIGURATION ----*/
 
-.car-14 ::selection {
-  background: #6A5CFF;
-  color: #fff;
-}
-
-.car-14 {
-  --accent: #6A5CFF;
-  font-family: 'Segoe UI',system-ui,sans-serif;
+.gallery-slider {
   width: 100%;
-  min-height: 100vh;
-  padding: 40px 20px;
+  max-width: 1280px;
+  
+  margin: clamp(28px, 4vw, 56px) auto clamp(64px, 8vw, 110px);
+  position: relative;
+}
 
+.slider-viewport {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #080813;
+  box-shadow: 0 14px 44px rgba(8, 8, 19, 0.12);
+  touch-action: pan-y;
+}
+
+.slider-track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100%;
+  transition: transform 650ms cubic-bezier(.22, .7, .2, 1);
+  will-change: transform;
+}
+
+.gallery-slide {
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 0;
+  height: 90vh;
+ min-height: 700px;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+
+}
+
+
+.gallery-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit :fill;
+  object-position: center;
+  min-height: 700px;
+}
+
+.gallery-slide-placeholder {
+  align-content: center;
+  justify-items: center;
+  gap: 12px;
+  color: rgba(245, 241, 235, .78);
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(106, 92, 255, .20), transparent 58%),
+    #080813;
+  border: 1px solid rgba(245, 241, 235, .08);
+}
+
+.placeholder-number {
+  font: 600 clamp(24px, 4vw, 42px)/1 "Manrope", "Avenir Next", sans-serif;
+  letter-spacing: .08em;
+}
+
+.placeholder-hint {
+  font-size: clamp(12px, 1.5vw, 15px);
+  letter-spacing: .02em;
+  color: rgba(245, 241, 235, .55);
+}
+
+.gallery-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  margin: 20px auto 14px;
+}
+
+.gallery-arrow {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(8, 8, 19, .22);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, opacity .2s ease, transform .2s ease;
+}
+
+.gallery-arrow:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--paper);
+  transform: scale(1.04);
+}
+
+.gallery-arrow:disabled {
+  opacity: .28;
+  cursor: not-allowed;
+}
+
+.gallery-counter {
+  min-width: 76px;
+  text-align: center;
+  color: var(--soft);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .12em;
+}
+
+.gallery-progress {
+  width: min(220px, 55%);
+  height: 2px;
+  margin: 0 auto 18px;
+  overflow: hidden;
+  background: rgba(8, 8, 19, .12);
+}
+
+.gallery-progress span {
+  display: block;
+  width: 5.88%;
+  height: 100%;
+  background: var(--purple);
+  transition: width 350ms ease;
+}
+
+.gallery-dots {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  max-width: 540px;
+  margin: 0 auto;
 }
 
-.car-14__box {
-  width: 100%;
-}
-
-.car-14__radio {
-  position: absolute;
-  width: 1px;
-  height: 1px;
+.gallery-dot {
+  width: 7px;
+  height: 7px;
   padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
   border: 0;
-}
-
-.car-14__frame {
-  position: relative;
-  aspect-ratio: 3/2;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #1b2733;
-  box-shadow: 0 26px 50px -32px rgba(0,0,0,.9);
-}
-
-.car-14__img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity .8s ease;
-}
-
-.car-14__radio:nth-of-type(1):checked ~ .car-14__frame .car-14__img:nth-child(1),
-.car-14__radio:nth-of-type(2):checked ~ .car-14__frame .car-14__img:nth-child(2),
-.car-14__radio:nth-of-type(3):checked ~ .car-14__frame .car-14__img:nth-child(3),
-.car-14__radio:nth-of-type(4):checked ~ .car-14__frame .car-14__img:nth-child(4) {
-  opacity: 1;
-}
-
-.car-14__dots {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 16px;
-}
-
-.car-14__dot {
-  width: 34px;
-  height: 5px;
-  border-radius: 999px;
-  background: #31404f;
+  border-radius: 99px;
+  background: rgba(8, 8, 19, .22);
   cursor: pointer;
-  transition: background .25s;
+  transition: width .2s ease, background .2s ease;
 }
 
-.car-14__dot:hover {
-  background: #4a5a6a;
+.gallery-dot[aria-current="true"] {
+  width: 22px;
+  background: var(--purple);
 }
 
-.car-14__radio:nth-of-type(1):checked ~ .car-14__dots .car-14__dot:nth-child(1),
-.car-14__radio:nth-of-type(2):checked ~ .car-14__dots .car-14__dot:nth-child(2),
-.car-14__radio:nth-of-type(3):checked ~ .car-14__dots .car-14__dot:nth-child(3),
-.car-14__radio:nth-of-type(4):checked ~ .car-14__dots .car-14__dot:nth-child(4) {
-  background: var(--accent);
+.gallery-arrow:focus-visible,
+.gallery-dot:focus-visible {
+  outline: 2px solid var(--purple);
+  outline-offset: 4px;
 }
 
-.car-14__radio:nth-of-type(1):focus-visible ~ .car-14__dots .car-14__dot:nth-child(1),
-.car-14__radio:nth-of-type(2):focus-visible ~ .car-14__dots .car-14__dot:nth-child(2),
-.car-14__radio:nth-of-type(3):focus-visible ~ .car-14__dots .car-14__dot:nth-child(3),
-.car-14__radio:nth-of-type(4):focus-visible ~ .car-14__dots .car-14__dot:nth-child(4) {
-  outline: 3px solid var(--accent);
-  outline-offset: 3px;
+@media (max-width: 760px) {
+  .gallery-slider {
+    width: 100%;
+    margin: 28px auto 64px;
+
+  }
+
+  .slider-viewport {
+    border-radius: 6px;
+  }
+
+  .gallery-slide {
+    height: clamp(300px, 78vw, 520px);
+          height: 30vh;
+   min-height: 300px;
+  }
+
+  .gallery-slide img {
+    padding: 0px;
+       min-height: 300px;
+  }
+
+  .gallery-controls {
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .gallery-arrow {
+    width: 38px;
+    height: 38px;
+  }
+
+  .gallery-dots {
+    gap: 8px;
+    max-width: 300px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .car-14__img {
+  .slider-track,
+  .gallery-progress span,
+  .gallery-arrow,
+  .gallery-dot {
     transition: none;
+  }
+}
+
+@media only screen and (min-width: 850px) {
+  body {
+    padding: 0 80px;
   }
 }
 /* ============================================

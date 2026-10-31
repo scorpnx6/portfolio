@@ -72,4 +72,55 @@
       URL.revokeObjectURL(downloadUrl);
     });
   }
+
 })();
+
+/* ============================================
+   NAVIGATION
+============================================ */
+function initNav() {
+  const nav    = document.querySelector('.nav');
+  const burger = $('hamburger');
+  const menu   = $('mobileMenu');
+
+
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+    updateActiveLink();
+  }, { passive: true });
+
+
+  burger && burger.addEventListener('click', () => {
+    const open = burger.classList.toggle('open');
+    menu.classList.toggle('open', open);
+  });
+
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      burger.classList.remove('open');
+      menu.classList.remove('open');
+    });
+  });
+}
+
+function updateActiveLink() {
+  const sections = ['home', 'hero', 'services', 'portfolio', 'about', 'contact'];
+  const scrollY  = window.scrollY + 120;
+  let current    = 'home';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.offsetTop <= scrollY) current = id;
+  });
+
+  const navMap = { hero: 'home', home: 'home' };
+  const target = navMap[current] || current;
+  document.querySelectorAll('.nav-link').forEach(link => {
+    const href = link.getAttribute('href').replace('#', '');
+    link.classList.toggle('active', href === target);
+  });
+}
+document.addEventListener('DOMContentLoaded', () => {
+
+  initNav();
+
+});
