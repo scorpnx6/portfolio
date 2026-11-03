@@ -74,7 +74,7 @@ h1{font:500 clamp(76px,15vw,198px)/.86 "Manrope","Avenir Next",sans-serif;letter
  .secondary-art{height:100vw;margin-top:16px;border-radius:0}
  .meta-grid{grid-template-columns:1fr 1fr;padding:28px 0 34px;gap:25px 18px}
  .story{grid-template-columns:1fr;gap:22px;padding:65px 0}
- .project-list{grid-template-columns:1fr}.project-card{min-height:340px}
+ .project-list{grid-template-columns:1fr}.project-card{min-height:225px}
  .related{padding:65px 0 80px}.related-head{display:block}
  .closing{margin:0 -20px;padding:65px 20px 70px}.closing-inner{display:block}
  .closing-action{width:fit-content;margin-top:40px}
@@ -340,7 +340,21 @@ html.is-transitioning {
   outline: 2px solid var(--purple);
   outline-offset: 4px;
 }
+.nav-cta-arrow {
+    width: 16px;
+    height: 16px;
 
+    flex: 0 0 auto;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    transition:
+        transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
 @media (max-width: 760px) {
   .gallery-slider {
     width: 100%;
@@ -547,22 +561,6 @@ html.is-transitioning {
   user-select: none;
 }
 
-/* =========================
-   RTL
-========================= */
-
-[dir="rtl"] .footer-grid {
-  direction: rtl;
-}
-
-[dir="rtl"] .footer-column {
-  align-items: flex-end;
-}
-
-[dir="rtl"] .footer-description,
-[dir="rtl"] .footer-copyright {
-  text-align: right;
-}
 
 /* =========================
    TABLET
@@ -628,8 +626,8 @@ html.is-transitioning {
   }
 
   .footer-word {
-    bottom: -5px;
-    font-size: 18vw;
+    bottom: -2px;
+    font-size: 16vw;
   }
 
 }

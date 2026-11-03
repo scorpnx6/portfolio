@@ -79,44 +79,84 @@
    NAVIGATION
 ============================================ */
 function initNav() {
-  const nav    = document.querySelector('.nav');
-  const burger = $('hamburger');
-  const menu   = $('mobileMenu');
+  const nav = document.querySelector(".nav");
+  const burger = document.getElementById("hamburger");
+  const menu = document.getElementById("mobileMenu");
 
+  if (!nav || !burger || !menu) return;
 
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
+  const setMenuOpen = (open) => {
+    burger.classList.toggle("open", open);
+    burger.setAttribute("aria-expanded", String(open));
+    burger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    menu.classList.toggle("open", open);
+    menu.setAttribute("aria-hidden", String(!open));
+    menu.inert = !open;
+    nav.classList.toggle("menu-open", open);
+  };
+
+  burger.addEventListener("click", () => {
+    setMenuOpen(burger.getAttribute("aria-expanded") !== "true");
+  });
+
+  menu.querySelectorAll(".mobile-link").forEach((link) => {
+    link.addEventListener("click", () => setMenuOpen(false));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && burger.getAttribute("aria-expanded") === "true") {
+      setMenuOpen(false);
+      burger.focus();
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (
+      burger.getAttribute("aria-expanded") === "true" &&
+      !nav.contains(event.target)
+    ) {
+      setMenuOpen(false);
+    }
+  });
+
+  const desktopLayout = window.matchMedia("(min-width: 900px)");
+  const closeOnDesktop = (event) => {
+    if (event.matches) setMenuOpen(false);
+  };
+  if (desktopLayout.addEventListener) {
+    desktopLayout.addEventListener("change", closeOnDesktop);
+  } else {
+    desktopLayout.addListener(closeOnDesktop);
+  }
+
+  const updateNavOnScroll = () => {
+    nav.classList.toggle("scrolled", window.scrollY > 40);
     updateActiveLink();
-  }, { passive: true });
-
-
-  burger && burger.addEventListener('click', () => {
-    const open = burger.classList.toggle('open');
-    menu.classList.toggle('open', open);
-  });
-
-  document.querySelectorAll('.mobile-link').forEach(link => {
-    link.addEventListener('click', () => {
-      burger.classList.remove('open');
-      menu.classList.remove('open');
-    });
-  });
+  };
+  window.addEventListener("scroll", updateNavOnScroll, { passive: true });
+  updateNavOnScroll();
 }
 
 function updateActiveLink() {
-  const sections = ['home', 'hero', 'services', 'portfolio', 'about', 'contact'];
-  const scrollY  = window.scrollY + 120;
-  let current    = 'home';
-  sections.forEach(id => {
+  const sections = ["top", "testimonials"];
+  const scrollPosition = window.scrollY + 120;
+  let current = "top";
+
+  sections.forEach((id) => {
     const el = document.getElementById(id);
-    if (el && el.offsetTop <= scrollY) current = id;
+    if (el && el.getBoundingClientRect().top + window.scrollY <= scrollPosition) {
+      current = id;
+    }
   });
 
-  const navMap = { hero: 'home', home: 'home' };
-  const target = navMap[current] || current;
-  document.querySelectorAll('.nav-link').forEach(link => {
-    const href = link.getAttribute('href').replace('#', '');
-    link.classList.toggle('active', href === target);
+  document.querySelectorAll(".nav-link").forEach((link) => {
+    const isActive = link.getAttribute("href") === `#${current}`;
+    link.classList.toggle("active", isActive);
+    if (isActive) {
+      link.setAttribute("aria-current", "location");
+    } else {
+      link.removeAttribute("aria-current");
+    }
   });
 }
 document.addEventListener('DOMContentLoaded', () => {
