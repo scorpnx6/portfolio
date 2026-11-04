@@ -83,6 +83,16 @@ h1{font:500 clamp(76px,15vw,198px)/.86 "Manrope","Avenir Next",sans-serif;letter
  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
  .reveal{opacity:1;transform:none}
 }
+.nav-cta-arrow1 {
+    width: 9px;
+    height: 9px;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    fill: none;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 3px;
+}
 /* =========================
    background
 ========================= */
