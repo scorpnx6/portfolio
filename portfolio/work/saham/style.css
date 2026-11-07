@@ -569,6 +569,7 @@ html.is-transitioning {
 
   background: #6A5CFF;
   background: linear-gradient(to top right, #6a5cfff7 0%, #f5f1eb9d 75%);
+  
   -webkit-background-clip:text;
 
    -webkit-text-fill-color: transparent;
