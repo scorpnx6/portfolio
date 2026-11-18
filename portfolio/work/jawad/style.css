@@ -2,6 +2,7 @@
 *{box-sizing:border-box;text-decoration: none;}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:"DM Sans","Avenir Next",Avenir,sans-serif}
+::selection { color: var(--bg-cream-sec); background: var(--purple); }
 a{color:inherit}
 .portfolio{width:min(100% - 96px,1440px);margin:0 auto}
 .topbar{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}

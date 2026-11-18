@@ -14,9 +14,10 @@ font-src 'self' https://fonts.gstatic.com;
 script-src 'self' 'unsafe-inline';
 connect-src
     'self'
-    https://digitalzn-production.up.railway.app
     https://www.digital-zn.com
     https://digital-zn.com
+    https://script.google.com
+    https://script.googleusercontent.com
     http://localhost:3000
     http://127.0.0.1:5500;
 frame-ancestors 'none';
@@ -342,7 +343,7 @@ form-action 'self';
         </div>
         <div class="portfolio-card reveal-up" >
           <div class="portfolio-img-wrap">
-            <img src="assets/portfolio-landing.webp" alt="Editing & Videography" loading="lazy" />
+            <img src="portfolio\work\assets\nabd-01.webp" alt="Editing & Videography" loading="lazy" />
             <a href="portfolio/port.html" class="portfolio-overlay" aria-label="PORTFOLIO ">
             <span class="portfolio-view" data-i18n="pf_view">View project</span>
              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -464,6 +465,10 @@ form-action 'self';
         </div>
         <div class="contact-form-wrap reveal-up">
           <form class="contact-form" id="contactForm" novalidate>
+            <div aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden">
+              <label for="contactCompany">Leave this field empty</label>
+              <input type="text" id="contactCompany" name="company" tabindex="-1" autocomplete="off">
+            </div>
             <div class="form-row">
               <div class="form-group">
                 <input type="text" name="name" id="fieldName" autocomplete="name" required data-i18n-ph="form_name"
@@ -501,7 +506,7 @@ form-action 'self';
             </div>
             <div class="form-error" id="formError" aria-live="polite"></div>
             <button type="submit" class="btn-submit" id="submitBtn">
-              <span id="submitLabel" data-i18n="form_send">Send Message</span>
+              <span id="submitLabel" data-i18n="form_send">Continue to WhatsApp</span>
               <img src="assets/icons/send-01-01.png" alt="" aria-hidden="true">
             </button>
           </form>
@@ -509,8 +514,8 @@ form-action 'self';
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polyline points="20 6 9 17 4 12" />
             </svg>
-            <h3 data-i18n="success_title">Message Sent!</h3>
-            <p data-i18n="success_msg">We'll get back to you within 24 hours.</p>
+            <h3 data-i18n="success_title">Message ready in WhatsApp</h3>
+            <p data-i18n="success_msg">Review the details in WhatsApp and tap Send to deliver your message.</p>
           </div>
         </div>
       </div>

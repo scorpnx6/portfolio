@@ -3,6 +3,7 @@
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:"DM Sans","Avenir Next",Avenir,sans-serif}
 a{color:inherit}
+::selection { color: var(--bg-cream-sec); background: var(--purple); }
 .portfolio{width:min(100% - 96px,1440px);margin:0 auto}
 .topbar{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
 .back-link{color:var(--soft);text-decoration:none;font-size:12px;display:flex;gap:10px;align-items:center;transition:color .2s}

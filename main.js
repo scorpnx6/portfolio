@@ -6,10 +6,8 @@
 /* ============================================
    BACKEND API
 ============================================ */
-const API = {
-  BASE_URL: 'https://digitalzn-production.up.railway.app',
-  CONTACT: '/api/contact'
-};
+// Paste the Web App URL from your Google Apps Script deployment here.
+const GOOGLE_SHEETS_WEB_APP_URL = 'PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
 
 /* ============================================
    TRANSLATIONS
@@ -91,8 +89,9 @@ const LANG = {
     form_services: 'Services you\'re interested in',
     form_msg:      'Tell us about your project...',
     form_send:     'Send Message',
-    success_title: 'Message Sent!',
-    success_msg:   "We'll get back to you within 24 hours.",
+    form_opening:  'Opening WhatsApp...',
+    success_title: 'Message ready in WhatsApp',
+    success_msg:   'Review the details in WhatsApp and tap Send to deliver your message.',
     footer_tagline: '"We Lead The Feed"',
     footer_copy:   'All rights reserved.',
     err_name:      'Please enter your name.',
@@ -191,8 +190,9 @@ const LANG = {
     form_services: 'Services qui vous intéressent',
     form_msg:      'Parlez-nous de votre projet...',
     form_send:     'Envoyer le Message',
-    success_title: 'Message Envoyé !',
-    success_msg:   'Nous vous répondrons dans les 24 heures.',
+    form_opening:  'Ouverture de WhatsApp...',
+    success_title: 'Message prêt dans WhatsApp',
+    success_msg:   'Vérifiez les informations dans WhatsApp puis appuyez sur Envoyer.',
     footer_tagline: '"Nous Menons Le Feed"',
     footer_copy:   'Tous droits réservés.',
     err_name:      'Veuillez entrer votre nom.',
@@ -299,8 +299,9 @@ const LANG = {
     form_services: 'الخدمات التي تهمك',
     form_msg:      'أخبرنا عن مشروعك...',
     form_send:     'إرسال الرسالة',
-    success_title: 'تم إرسال رسالتك!',
-    success_msg:   'سنرد عليك خلال 24 ساعة.',
+    form_opening:  'جارٍ فتح واتساب...',
+    success_title: 'الرسالة جاهزة في واتساب',
+    success_msg:   'راجع المعلومات في واتساب واضغط إرسال لإرسال رسالتك.',
     footer_tagline: '"نحن نقود المحتوى الرقمي"',
     footer_copy:   'جميع الحقوق محفوظة.',
     err_name:      'الرجاء إدخال اسمك.',
@@ -762,30 +763,58 @@ function initForm() {
     }
 
     submitBtn.disabled = true;
-    submitLbl.textContent = 'Sending...';
-
+    submitLbl.textContent = t('form_opening');
 
     const payload = {
       name,
       email,
       phone,
       services,
-      message
+      message,
+      company: form.elements.company.value.trim()
     };
 
     try {
-      const response = await fetch(`${API.BASE_URL}${API.CONTACT}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
+      // Use the WhatsApp contact link already present on the page as the target.
+      const whatsappLink = document.querySelector('.whatsapp-btn');
+      const whatsappTarget = whatsappLink ? new URL(whatsappLink.href) : null;
+      const whatsappNumber = whatsappTarget?.hostname === 'wa.me'
+        ? whatsappTarget.pathname.split('/').filter(Boolean)[0]
+        : '';
 
-      const data = await response.json();
+      if (!/^\d+$/.test(whatsappNumber)) {
+        throw new Error('The WhatsApp contact number is missing or invalid.');
+      }
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to send message.');
+      const whatsappMessage = [
+        'New contact form message',
+        `Name: ${name}`,
+        `Email: ${email}`,
+        `Phone: ${phone || 'Not provided'}`,
+        `Services: ${services.join(', ')}`,
+        `Project details: ${message}`
+      ].join('\n');
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+      // Open synchronously from the submit click so popup blockers are less likely
+      // to block WhatsApp. If blocked, fall back to the current tab.
+      const whatsappWindow = window.open(whatsappUrl, '_blank');
+      if (whatsappWindow) {
+        whatsappWindow.opener = null;
+      } else {
+        window.location.assign(whatsappUrl);
+        return;
+      }
+
+      // Keep the Sheets integration available once its Web App URL is configured.
+      // Apps Script responses are opaque to browser fetch, so this is best-effort.
+      if (GOOGLE_SHEETS_WEB_APP_URL.startsWith('https://script.google.com/')) {
+        fetch(GOOGLE_SHEETS_WEB_APP_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        }).catch(error => console.error('Google Sheets submission error:', error));
       }
 
       form.style.display = 'none';
@@ -818,6 +847,11 @@ function initMarquee() {
   parent.addEventListener('mouseenter', () => track.style.animationPlayState = 'paused');
   parent.addEventListener('mouseleave', () => track.style.animationPlayState = 'running');
 }
+/* ============================================
+   cookies
+============================================ */
+
+
 /* ============================================
    FOOTER YEAR
 ============================================ */

@@ -3,6 +3,7 @@
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:"DM Sans","Avenir Next",Avenir,sans-serif}
 a{color:inherit}
+::selection { color: var(--bg-cream-sec); background: var(--purple); }
 .portfolio{width:min(100% - 96px,1440px);margin:0 auto}
 .topbar{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
 .back-link{color:var(--soft);text-decoration:none;font-size:12px;display:flex;gap:10px;align-items:center;transition:color .2s}
@@ -45,11 +46,13 @@ h1{font:500 clamp(76px,15vw,198px)/.86 "Manrope","Avenir Next",sans-serif;letter
 .project-card:nth-child(2){background:var(--bg-cream-sec)}
 .card-art {
     position:absolute;
-    display:grid;place-items:center;
-    transition:transform .6s cubic-bezier(.2,.7,.2,1) 
+    display:grid;
+    place-items:center;
+    transition:transform .6s cubic-bezier(.2,.7,.2,1)
 }
 .card-art img {
     width: 100% ;
+    display:block;
 }
 .project-card:hover .card-art{transform:scale(1.035)}
 

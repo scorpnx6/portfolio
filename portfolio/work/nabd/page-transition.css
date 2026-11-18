@@ -1,0 +1,123 @@
+html.is-transitioning,
+html.has-pending-page-transition {
+  scroll-behavior: auto;
+}
+
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: var(--purple, #6A5CFF);
+  color: var(--bg-cream-sec, #F5F1EB);
+  clip-path: ellipse(0% 0% at 50% 100%);
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.page-transition.is-covering {
+  visibility: visible;
+  animation: transition-cover .78s cubic-bezier(.76, 0, .24, 1) both;
+}
+
+/* Start the destination page fully covered before its first paint. */
+html.has-pending-page-transition .page-transition {
+  visibility: visible;
+  clip-path: ellipse(155% 150% at 50% 100%);
+}
+
+html.has-pending-page-transition .transition-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+html.has-pending-page-transition .transition-progress span {
+  transform: scaleX(1);
+}
+
+.page-transition.is-revealing {
+  visibility: visible;
+  animation: transition-reveal .72s cubic-bezier(.76, 0, .24, 1) both;
+}
+
+.transition-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.page-transition.is-covering .transition-content {
+  animation: label-in .35s .16s ease both;
+}
+
+.page-transition.is-revealing .transition-content {
+  animation: label-out .18s ease both;
+}
+
+.transition-count {
+  font: 11px var(--font-mono, monospace);
+  letter-spacing: .08em;
+}
+
+.transition-title {
+  font: 500 clamp(3.8rem, 10vw, 9rem)/.9 var(--font-display, sans-serif);
+  letter-spacing: -.075em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.transition-progress {
+  position: absolute;
+  bottom: clamp(28px, 5vh, 52px);
+  left: 50%;
+  width: clamp(68px, 6vw, 100px);
+  height: 2px;
+  background: rgba(245, 241, 235, .32);
+  transform: translateX(-50%);
+}
+
+.transition-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-cream-sec, #F5F1EB);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.page-transition.is-covering .transition-progress span {
+  transform: scaleX(1);
+  transition: transform .68s cubic-bezier(.76, 0, .24, 1);
+}
+
+.page-transition.is-revealing .transition-progress span {
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform .45s ease;
+}
+
+@keyframes transition-cover {
+  to { clip-path: ellipse(155% 150% at 50% 100%); }
+}
+
+@keyframes transition-reveal {
+  from { clip-path: ellipse(155% 150% at 50% 100%); }
+  to { clip-path: ellipse(0% 0% at 50% 100%); }
+}
+
+@keyframes label-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes label-out {
+  to { opacity: 0; transform: translateY(-12px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition { display: none; }
+}
