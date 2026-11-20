@@ -43,6 +43,7 @@ html {
   background: #6a5cffdd;
   border-radius: 999px;
 }
+::selection { color: var(--bg-cream-sec); background: #6a5cffc7; }
 /* ============================================
    RESET
 ============================================ */
