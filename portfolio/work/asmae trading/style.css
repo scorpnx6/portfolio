@@ -79,6 +79,7 @@ h1{font:500 clamp(76px,15vw,198px)/.86 "Manrope","Avenir Next",sans-serif;letter
  .related{padding:65px 0 80px}.related-head{display:block}
  .closing{margin:0 -20px;padding:65px 20px 70px}.closing-inner{display:block}
  .closing-action{width:fit-content;margin-top:40px}
+ .videocall{  width:30%;border-radius: 20px;height: auto;transform: translateX(0);}
 }
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
@@ -101,6 +102,10 @@ h1{font:500 clamp(76px,15vw,198px)/.86 "Manrope","Avenir Next",sans-serif;letter
   border-radius: 20px;
   align-content: center;
   justify-content: center;
+  transform: translateX(400px);
+}
+@media(max-width:760px){
+  .videocall{ width:100%; transform: translateX(0);}
 }
 /* =========================
    background

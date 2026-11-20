@@ -111,7 +111,22 @@ const LANG = {
     fot_social:  'Social',
     webss: 'Web Development',
     suppp:  'Support ',
-    desp:        'Digital ZN helps ambitious brands build bold digital experiences through strategy, design, development, and visual content.'
+    desp:        'Digital ZN helps ambitious brands build bold digital experiences through strategy, design, development, and visual content.',
+    cookie_title: 'Your privacy matters',
+    cookie_description: 'Choose which optional cookies and similar storage you allow. Required storage is always on.',
+    cookie_options: 'Privacy choices',
+    cookie_necessary: 'Required',
+    cookie_necessary_desc: 'Needed for basic site functions and to save your privacy choice.',
+    cookie_preferences: 'Preferences',
+    cookie_preferences_desc: 'Remember settings such as your language and choices.',
+    cookie_analytics: 'Analytics',
+    cookie_analytics_desc: 'Help us understand how visitors use the site.',
+    cookie_marketing: 'Marketing',
+    cookie_marketing_desc: 'Allow relevant advertising and campaign measurement.',
+    cookie_reject: 'Reject optional',
+    cookie_save: 'Save choices',
+    cookie_accept: 'Accept all',
+    cookie_settings: 'Cookie settings'
   },
 
   fr: {
@@ -213,6 +228,21 @@ const LANG = {
     fot_social:  'Social',
     suppp:   'Support',
     webss:  'Développement web',
+    cookie_title: 'Votre vie privée compte',
+    cookie_description: 'Choisissez les cookies facultatifs et le stockage similaire que vous autorisez. Le stockage nécessaire reste toujours actif.',
+    cookie_options: 'Choix de confidentialité',
+    cookie_necessary: 'Nécessaires',
+    cookie_necessary_desc: 'Indispensables au fonctionnement du site et à l’enregistrement de votre choix.',
+    cookie_preferences: 'Préférences',
+    cookie_preferences_desc: 'Mémoriser des réglages comme votre langue et vos choix.',
+    cookie_analytics: 'Statistiques',
+    cookie_analytics_desc: 'Nous aider à comprendre comment les visiteurs utilisent le site.',
+    cookie_marketing: 'Marketing',
+    cookie_marketing_desc: 'Autoriser la publicité pertinente et la mesure des campagnes.',
+    cookie_reject: 'Tout refuser sauf le nécessaire',
+    cookie_save: 'Enregistrer mes choix',
+    cookie_accept: 'Tout accepter',
+    cookie_settings: 'Paramètres des cookies',
     desp: 'Digital ZN aide des marques ambitieuses à concevoir des expériences numériques audacieuses, grâce à la stratégie, au design, au développement et à la création de contenus visuels.'
   },
 
@@ -321,7 +351,22 @@ const LANG = {
     desp :       'تساعد Digital ZN العلامات التجارية الطموحة على بناء تجارب رقمية جريئة، وذلك من خلال الاستراتيجية والتصميم والتطوير والمحتوى البصري.',
     suppp:      'للدعم',
     fot_comp:     'الشركة',
-    fot_social:  'مواقع التواصل'
+    fot_social:  'مواقع التواصل',
+    cookie_title: 'خصوصيتك تهمنا',
+    cookie_description: 'اختر ملفات تعريف الارتباط الاختيارية وأنواع التخزين التي تسمح بها. يظل التخزين الضروري مفعّلاً دائماً.',
+    cookie_options: 'خيارات الخصوصية',
+    cookie_necessary: 'ضروري',
+    cookie_necessary_desc: 'لاستخدام الوظائف الأساسية للموقع وحفظ اختيارك.',
+    cookie_preferences: 'التفضيلات',
+    cookie_preferences_desc: 'تذكّر إعدادات مثل اللغة والاختيارات.',
+    cookie_analytics: 'التحليلات',
+    cookie_analytics_desc: 'ساعدنا على فهم كيفية استخدام الزوار للموقع.',
+    cookie_marketing: 'التسويق',
+    cookie_marketing_desc: 'السماح بالإعلانات المناسبة وقياس الحملات.',
+    cookie_reject: 'رفض الاختياري',
+    cookie_save: 'حفظ الاختيارات',
+    cookie_accept: 'قبول الكل',
+    cookie_settings: 'إعدادات ملفات تعريف الارتباط'
   }
 };
 /* ============================================
@@ -848,9 +893,130 @@ function initMarquee() {
   parent.addEventListener('mouseleave', () => track.style.animationPlayState = 'running');
 }
 /* ============================================
-   cookies
+   COOKIE CONSENT
 ============================================ */
+const COOKIE_CONSENT_KEY = 'dzn_cookie_consent_v1';
+const DEFAULT_COOKIE_CONSENT = Object.freeze({
+  necessary: true,
+  preferences: false,
+  analytics: false,
+  marketing: false
+});
 
+function readCookieConsent() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(COOKIE_CONSENT_KEY) || 'null');
+    if (!saved || typeof saved !== 'object') return null;
+    return {
+      necessary: true,
+      preferences: saved.preferences === true,
+      analytics: saved.analytics === true,
+      marketing: saved.marketing === true
+    };
+  } catch {
+    return null;
+  }
+}
+
+function initCookieConsent() {
+  const dialog = $('cookieConsent');
+  const settingsButton = $('cookieSettingsTrigger');
+  const preferencesInput = $('cookiePreferences');
+  const analyticsInput = $('cookieAnalytics');
+  const marketingInput = $('cookieMarketing');
+  const rejectButton = $('cookieRejectAll');
+  const saveButton = $('cookieSaveChoices');
+  const acceptButton = $('cookieAcceptAll');
+
+  if (!dialog || !settingsButton || !preferencesInput || !analyticsInput ||
+      !marketingInput || !rejectButton || !saveButton || !acceptButton) return;
+
+  let consent = readCookieConsent();
+  window.DZN_COOKIE_CONSENT = consent || { ...DEFAULT_COOKIE_CONSENT };
+  let previousFocus = null;
+
+  const setInputs = value => {
+    preferencesInput.checked = value.preferences;
+    analyticsInput.checked = value.analytics;
+    marketingInput.checked = value.marketing;
+  };
+
+  const openDialog = () => {
+    previousFocus = document.activeElement;
+    setInputs(consent || DEFAULT_COOKIE_CONSENT);
+    dialog.hidden = false;
+    settingsButton.hidden = true;
+    document.body.classList.add('cookie-consent-open');
+    rejectButton.focus();
+  };
+
+  const closeDialog = () => {
+    dialog.hidden = true;
+    settingsButton.hidden = false;
+    document.body.classList.remove('cookie-consent-open');
+    if (previousFocus && typeof previousFocus.focus === 'function') previousFocus.focus();
+  };
+
+  const saveConsent = nextConsent => {
+    consent = {
+      necessary: true,
+      preferences: nextConsent.preferences === true,
+      analytics: nextConsent.analytics === true,
+      marketing: nextConsent.marketing === true
+    };
+
+    try {
+      localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(consent));
+    } catch (error) {
+      console.warn('Could not save cookie preferences in this browser.', error);
+    }
+
+    window.DZN_COOKIE_CONSENT = { ...consent };
+    window.dispatchEvent(new CustomEvent('dzn:consentchange', {
+      detail: { ...consent }
+    }));
+    closeDialog();
+  };
+
+  rejectButton.addEventListener('click', () => saveConsent(DEFAULT_COOKIE_CONSENT));
+  acceptButton.addEventListener('click', () => saveConsent({
+    necessary: true,
+    preferences: true,
+    analytics: true,
+    marketing: true
+  }));
+  saveButton.addEventListener('click', () => saveConsent({
+    necessary: true,
+    preferences: preferencesInput.checked,
+    analytics: analyticsInput.checked,
+    marketing: marketingInput.checked
+  }));
+  settingsButton.addEventListener('click', openDialog);
+
+  dialog.addEventListener('keydown', event => {
+    if (event.key !== 'Tab') return;
+    const focusable = Array.from(dialog.querySelectorAll('button:not([disabled]), input:not([disabled])'));
+    if (!focusable.length) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  if (consent) {
+    setInputs(consent);
+    settingsButton.hidden = false;
+  } else {
+    // Wait until the branded intro finishes so the consent panel does not cover it.
+    window.setTimeout(openDialog, 2700);
+  }
+}
 
 /* ============================================
    FOOTER YEAR
@@ -982,6 +1148,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initForm();
   initMarquee();
   initFooter();
+  initCookieConsent();
   initSmoothScroll();
 
   initServiceMorph();

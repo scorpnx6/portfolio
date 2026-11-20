@@ -655,6 +655,72 @@ form-action 'self';
 
 </div>
 </div>
+<!-- COOKIE CONSENT -->
+<div
+  class="cookie-consent"
+  id="cookieConsent"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="cookieConsentTitle"
+  aria-describedby="cookieConsentDescription"
+  hidden
+>
+  <div class="cookie-consent-backdrop" aria-hidden="true"></div>
+  <section class="cookie-consent-panel">
+    <span class="cookie-consent-eyebrow">DIGITAL ZN</span>
+    <h2 id="cookieConsentTitle" data-i18n="cookie_title">Your privacy matters</h2>
+    <p id="cookieConsentDescription" data-i18n="cookie_description">
+      Choose which optional cookies and similar storage you allow. Required storage is always on.
+    </p>
+
+    <fieldset class="cookie-consent-options">
+      <legend class="cookie-consent-legend" data-i18n="cookie_options">Privacy choices</legend>
+      <label class="cookie-consent-option" for="cookieNecessary">
+        <span class="cookie-consent-option-copy">
+          <span class="cookie-consent-option-title" data-i18n="cookie_necessary">Required</span>
+          <span class="cookie-consent-option-description" data-i18n="cookie_necessary_desc">Needed for basic site functions and to save your privacy choice.</span>
+        </span>
+        <input id="cookieNecessary" type="checkbox" checked disabled>
+      </label>
+      <label class="cookie-consent-option" for="cookiePreferences">
+        <span class="cookie-consent-option-copy">
+          <span class="cookie-consent-option-title" data-i18n="cookie_preferences">Preferences</span>
+          <span class="cookie-consent-option-description" data-i18n="cookie_preferences_desc">Remember settings such as your language and choices.</span>
+        </span>
+        <input id="cookiePreferences" type="checkbox">
+      </label>
+      <label class="cookie-consent-option" for="cookieAnalytics">
+        <span class="cookie-consent-option-copy">
+          <span class="cookie-consent-option-title" data-i18n="cookie_analytics">Analytics</span>
+          <span class="cookie-consent-option-description" data-i18n="cookie_analytics_desc">Help us understand how visitors use the site.</span>
+        </span>
+        <input id="cookieAnalytics" type="checkbox">
+      </label>
+      <label class="cookie-consent-option" for="cookieMarketing">
+        <span class="cookie-consent-option-copy">
+          <span class="cookie-consent-option-title" data-i18n="cookie_marketing">Marketing</span>
+          <span class="cookie-consent-option-description" data-i18n="cookie_marketing_desc">Allow relevant advertising and campaign measurement.</span>
+        </span>
+        <input id="cookieMarketing" type="checkbox">
+      </label>
+    </fieldset>
+
+    <div class="cookie-consent-actions">
+      <button id="cookieRejectAll" class="cookie-button cookie-button--quiet" type="button" data-i18n="cookie_reject">Reject optional</button>
+      <button id="cookieSaveChoices" class="cookie-button cookie-button--outline" type="button" data-i18n="cookie_save">Save choices</button>
+      <button id="cookieAcceptAll" class="cookie-button cookie-button--primary" type="button" data-i18n="cookie_accept">Accept all</button>
+    </div>
+  </section>
+</div>
+<button
+  class="cookie-settings-trigger"
+  id="cookieSettingsTrigger"
+  type="button"
+  data-i18n="cookie_settings"
+  hidden
+>
+  Cookie settings
+</button>
 </body>
 
 </html>
